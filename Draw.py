@@ -76,8 +76,8 @@ frameLeft.place(x=0, y=20)
 # Create canvas for Right-top side (Board for the users)
 canvas = Canvas(frameTop, width=width, height=height, bg="White")
 canvas.place(x=200, y=20)
-img = PhotoImage(width=width,height=height)
-canvas.create_image((width/2, height/2), image=img, state="normal")
+img = PhotoImage(width=width, height=height)
+canvas.create_image((width / 2, height / 2), image=img, state="normal")
 
 '''Color'''
 # Create label and button for select the color
@@ -166,8 +166,9 @@ def changeButton(input: str):
     else:
 
         # Clean the canvas (board)
-        global canvas,img
+        global canvas, img
         canvas.delete(img)
+        canvas.delete("all")
         img = PhotoImage(width=width, height=height)
         canvas.create_image((width / 2, height / 2), image=img, state="normal")
         if input == "":
@@ -204,8 +205,10 @@ def myPixel(_x, _y):
     global canvas, img
     if _x < 0 or _y < 0:
         return
-    # create_oval(x0, y0, x1, y1, option, ...), with x0 = x1 and y0 = y1 so it is create/ draw pixel
-    img.put(draw[0],(int(_x),int(_y)))
+    if draw[1] == 1: # if size is 1, so can draw this img.put because is draw 1 pixel
+        img.put(draw[0], (int(_x), int(_y)))
+    else:  # for change size draw if is ">1"
+        canvas.create_line((_x, _y, _x + 1, _y + 1), fill=draw[0], width=draw[1])
 
 
 '''Line'''
